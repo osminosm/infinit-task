@@ -1,9 +1,8 @@
 # Inifinit Test
 
-## Running the test
+## Commands
 
-Requirements : golang
-
+Requirements : [GoLang](https://go.dev/)
 
 Run for development
 ```sh
@@ -20,7 +19,7 @@ Build and run for production
 go build . && ./infinit-task
 ```
 
-## Requirement
+## Given Requirements
 
 The goal is for you to write a program that connects via the GitHub API to the GitHub - lodash/lodash repository and gathers a couple of statistics for us.
 
