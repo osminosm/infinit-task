@@ -9,14 +9,14 @@ import (
 	"strings"
 )
 
-type RepoFileReader struct {
+type ZipFileReader struct {
 	data []byte
 }
 
-func (repoZip RepoFileReader) GetFileContentByExtention(extentions []string) (string, error) {
+func (zipFileReader ZipFileReader) GetFileContentByExtention(extentions []string) (string, error) {
 
 	// Open the zip archive
-	zipReader, err := zip.NewReader(bytes.NewReader(repoZip.data), int64(len(repoZip.data)))
+	zipReader, err := zip.NewReader(bytes.NewReader(zipFileReader.data), int64(len(zipFileReader.data)))
 	if err != nil {
 		return "", err
 	}
@@ -49,14 +49,14 @@ func (repoZip RepoFileReader) GetFileContentByExtention(extentions []string) (st
 	return content, nil
 }
 
-func ZipFileReader(url string) (RepoFileReader, error) {
+func NewZipFileReader(url string) (ZipFileReader, error) {
 
-	repoZip := RepoFileReader{}
+	zipFileReader := ZipFileReader{}
 	// Download the zip file
 	resp, err := http.Get(url)
 	if err != nil {
 		fmt.Println("Error downloading zip file:", err)
-		return repoZip, err
+		return zipFileReader, err
 	}
 	defer resp.Body.Close()
 
@@ -64,12 +64,12 @@ func ZipFileReader(url string) (RepoFileReader, error) {
 	zipData, err := io.ReadAll(resp.Body)
 	if err != nil {
 		fmt.Println("Error reading zip file:", err)
-		return repoZip, err
+		return zipFileReader, err
 	}
 
-	repoZip.data = zipData
+	zipFileReader.data = zipData
 
-	return repoZip, err
+	return zipFileReader, err
 }
 
 func hasSuffixes(str string, suffixes ...string) bool {

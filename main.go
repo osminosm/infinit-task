@@ -34,12 +34,15 @@ func main() {
 
 	url := "https://api.github.com/repos/" + repo + "/zipball/" + revision
 
-	zipFileReader, err := ZipFileReader(url)
+	zipFileReader, err := NewZipFileReader(url)
 	if err != nil {
-		fmt.Println("Error creating read stream from repository", err)
+		panic("Could not retrieve repository file reader" + err.Error())
 	}
 
-	repoFileContent, _ := zipFileReader.GetFileContentByExtention([]string{".js", ".ts"})
+	repoFileContent, err := zipFileReader.GetFileContentByExtention([]string{".js", ".ts"})
+	if err != nil {
+		panic("Could not retrieve repository file content" + err.Error())
+	}
 	stats := NewCharFrequency(repoFileContent)
 
 	fmt.Println("Result:")
